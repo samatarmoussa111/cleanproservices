@@ -19,11 +19,13 @@ interface Props {
 export function GetAQuote({ children }: Props) {
   return (
     <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="max-w-[400px] sm:max-w-2xl overflow-y-scroll overflow-x-hidden max-h-screen">
+      <DialogTrigger asChild className="">
+        {children}
+      </DialogTrigger>
+      <DialogContent className="max-w-[400px] sm:max-w-2xl overflow-y-scroll pt-10  overflow-x-hidden max-h-screen">
         <DialogHeader>
           <DialogTitle>Get a Quote</DialogTitle>
-          <DialogDescription className="max-w-[350px] sm:max-w-xl">
+          <DialogDescription className="max-w-[300px]    sm:max-w-xl">
             Areas of Service Include but are not limited to: Portland, Lewiston,
             Auburn.
           </DialogDescription>
