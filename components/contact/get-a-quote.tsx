@@ -22,7 +22,7 @@ export function GetAQuote({ children }: Props) {
       <DialogTrigger asChild className="">
         {children}
       </DialogTrigger>
-      <DialogContent className="max-w-[400px] sm:max-w-2xl overflow-y-scroll py-10  overflow-x-hidden max-h-screen">
+      <DialogContent className="max-w-[400px] sm:max-w-2xl overflow-y-scroll pt-10 pb-20 overflow-x-hidden max-h-screen">
         <DialogHeader>
           <DialogTitle>Get a Quote</DialogTitle>
           <DialogDescription className="max-w-[300px]    sm:max-w-xl">
