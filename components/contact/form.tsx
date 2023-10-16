@@ -2,53 +2,21 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { formSchema } from "./form-schema";
 
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
-import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-import { Label } from "../ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
+import InputText from "./form-inputs/input-text";
+import RadioInput from "./form-inputs/radio-input";
+import SelectInput from "./form-inputs/select-input";
 
-const formSchema = z.object({
-  firstName: z.string().min(2, {
-    message: "First name must be at least 2 characters.",
-  }),
-  lastName: z.string().min(2, {
-    message: "Last name must be at least 2 characters.",
-  }),
-  phone: z.string().min(10, {
-    message: "Phone number must be at least 10 digits.",
-  }),
-  email: z.string().email("Must be a valid email"),
-  typeService: z.enum(["commercial", "rental", "real-estate", "janitorial"], {
-    required_error: "You need to select a service type.",
-  }),
-  city: z.enum(["lewiston", "auburn", "portland"], {
-    required_error: "Please select a city.",
-  }),
-  how_often: z.enum(["daily", "weekly", "biweekly"], {
-    required_error: "Please select a value.",
-  }),
-  carpets_floors: z.enum(["floors", "carpets", "waxing"], {
-    required_error: "Please select a value.",
-  }),
-});
+import {
+  radioGroupCarpetsFloorsItems,
+  radioGroupHowOftenItems,
+  radioGroupServicesItems,
+  selectCitiesItems,
+} from "./data/select-radio-data";
 
 export function GetAQuoteForm() {
   // 1. Define your form.
@@ -59,7 +27,7 @@ export function GetAQuoteForm() {
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
+    // TODO: Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
   }
@@ -71,200 +39,57 @@ export function GetAQuoteForm() {
         className="space-y-8 max-w-[350px] sm:max-w-none "
       >
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <FormField
-            control={form.control}
+          <InputText
             name="firstName"
-            render={({ field }) => (
-              <FormItem className="max-w-[350px] sm:max-w-none">
-                <FormLabel>First Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="John" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            label="First Name"
+            form={form}
+            placeholder="John"
           />
-          <FormField
-            control={form.control}
+          <InputText
             name="lastName"
-            render={({ field }) => (
-              <FormItem className="max-w-[350px] sm:max-w-none">
-                <FormLabel>Last Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="Doe" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            label="Last Name"
+            form={form}
+            placeholder="Doe"
           />
         </div>
-        <FormField
-          control={form.control}
+        <InputText
           name="phone"
-          render={({ field }) => (
-            <FormItem className="max-w-[350px] sm:max-w-none">
-              <FormLabel>Phone</FormLabel>
-              <FormControl>
-                <Input placeholder="(000)-000-0000" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Phone"
+          form={form}
+          placeholder="(000)-000-0000"
         />
-        <FormField
-          control={form.control}
+        <InputText
           name="email"
-          render={({ field }) => (
-            <FormItem className="max-w-[350px] sm:max-w-none">
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="John.Doe@gmail.com" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Email"
+          form={form}
+          placeholder="John.Doe@gmail.com"
         />
 
-        <FormField
-          control={form.control}
+        <RadioInput
           name="typeService"
-          render={({ field }) => (
-            <FormItem className="space-y-3 ">
-              <FormLabel> Type of Request</FormLabel>
-              <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  className=" grid grid-cols-2 gap-3 sm:flex sm:items-center sm:justify-start sm:gap-5"
-                >
-                  <FormItem className="flex items-center space-x-2 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="commercial" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Commercial</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="rental" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Rental</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="real-estate" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Real Estate</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="janitorial" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Janitorial</FormLabel>
-                  </FormItem>
-                </RadioGroup>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          radioGroupItems={radioGroupServicesItems}
+          title="Type of Request"
+          form={form}
         />
-
-        <FormField
-          control={form.control}
+        <SelectInput
           name="city"
-          render={({ field }) => (
-            <FormItem className="max-w-[350px] sm:max-w-none">
-              <FormLabel>City</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Town in which you are looking to have service" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="lewiston">Lewiston</SelectItem>
-                  <SelectItem value="auburn">Auburn</SelectItem>
-                  <SelectItem value="portland">Portland</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
+          form={form}
+          title="City"
+          placeholder="Town in which you are looking to have service"
+          selectItems={selectCitiesItems}
         />
-        <FormField
-          control={form.control}
+        <RadioInput
           name="how_often"
-          render={({ field }) => (
-            <FormItem className="space-y-3 ">
-              <FormLabel> How often</FormLabel>
-              <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  className="flex items-center gap-2 justify-start sm:gap-5"
-                >
-                  <FormItem className="flex items-center space-x-2 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="daily" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Daily</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="weekly" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Weekly</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="biweekly" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Bi-Weekly</FormLabel>
-                  </FormItem>
-                </RadioGroup>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          radioGroupItems={radioGroupHowOftenItems}
+          title="How often"
+          form={form}
         />
-        <FormField
-          control={form.control}
+        <RadioInput
           name="carpets_floors"
-          render={({ field }) => (
-            <FormItem className="space-y-3">
-              <FormLabel>Floors & Carpets</FormLabel>
-              <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  className="flex items-center gap-2 justify-start sm:gap-5"
-                >
-                  <FormItem className="flex items-center space-x-2 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="floors" />
-                    </FormControl>
-                    <FormLabel className="font-normal">
-                      Hardwood Floors
-                    </FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="carpets" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Carpets</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="waxing" />
-                    </FormControl>
-                    <FormLabel className="font-normal">Waxing</FormLabel>
-                  </FormItem>
-                </RadioGroup>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          radioGroupItems={radioGroupCarpetsFloorsItems}
+          title="Floors & Carpets"
+          form={form}
         />
-
         <Button type="submit" className="mb-2">
           Get a Quote
         </Button>

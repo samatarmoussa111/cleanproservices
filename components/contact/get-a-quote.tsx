@@ -1,15 +1,11 @@
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { GetAQuoteForm } from "./form";
 
 interface Props {
@@ -22,7 +18,7 @@ export function GetAQuote({ children }: Props) {
       <DialogTrigger asChild className="">
         {children}
       </DialogTrigger>
-      <DialogContent className="max-w-[400px] sm:max-w-2xl overflow-y-scroll pt-10 pb-20 overflow-x-hidden max-h-screen">
+      <DialogContent className="max-w-[400px] sm:max-w-2xl overflow-y-scroll pt-10 pb-20 sm:pt-10 sm:pb-10 overflow-x-hidden max-h-screen">
         <DialogHeader>
           <DialogTitle>Get a Quote</DialogTitle>
           <DialogDescription className="max-w-[300px]    sm:max-w-xl">
